@@ -1,7 +1,13 @@
+
+
 const PORT = 3000;
 const express = require('express');
 const server = express();
 
+const morgan = require('morgan');
+server.use(morgan('dev'));
+
+server.use(express.json());
 
 server.use((req, res, next) => {
   console.log("<____Body Logger START____>");
@@ -16,6 +22,9 @@ server.use("/api", apiRouter);
 
 
 const port = process.env.PORT || 3000;
+
+const { client } = require('./db');
+client.connect();
 
 server.listen(port, () => {
   console.log(`The server is up on port ${port}`)
