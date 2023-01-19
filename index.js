@@ -11,6 +11,12 @@ server.use((req, res, next) => {
   next();
 });
 
-server.listen(PORT, () => {
-  console.log('The server is up on port', PORT)
+const apiRouter = require('./api');
+server.use("/api", apiRouter);
+
+
+const port = process.env.PORT || 3000;
+
+server.listen(port, () => {
+  console.log(`The server is up on port ${port}`)
 });
