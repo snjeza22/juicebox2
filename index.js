@@ -4,12 +4,30 @@ require('dotenv').config();
 const PORT = 3000;
 const express = require('express');
 const server = express();
+const jwt = require('jsonwebtoken');
+
 
 const morgan = require('morgan');
 server.use(morgan('dev'));
 
 server.use(express.json());
 
+server.post('/register', async (req, res, next)=>{
+  console.log("request to register user...");
+  const {username, password} = req.body;
+  try {
+    const user = await createUser({username, password});
+    console.log (user);
+    res.status(200).send({
+      token: jwt.sign(
+        {message: "register success,welcome aboard"},
+        process.env.JWR_SECRET
+      ),
+    });
+  } catch (error) {
+    res.staus(409).send({message: "could not register.."})
+  }
+})
 server.use((req, res, next) => {
   console.log("<____Body Logger START____>");
   console.log(req.body);
