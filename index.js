@@ -5,12 +5,18 @@ const PORT = 3000;
 const express = require('express');
 const server = express();
 const jwt = require('jsonwebtoken');
-
+const { createUser } = require('./db');
 
 const morgan = require('morgan');
 server.use(morgan('dev'));
 
+server.use(express.static('public'));
 server.use(express.json());
+
+
+server.get('/', (req, res, next) => {
+res.sendFile(_dir,"/public/index.html");
+})
 
 server.post('/register', async (req, res, next)=>{
   console.log("request to register user...");
@@ -25,9 +31,12 @@ server.post('/register', async (req, res, next)=>{
       ),
     });
   } catch (error) {
-    res.staus(409).send({message: "could not register.."})
+    res.status(409).send({message: "could not register.."})
   }
 })
+
+
+
 server.use((req, res, next) => {
   console.log("<____Body Logger START____>");
   console.log(req.body);

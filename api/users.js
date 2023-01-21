@@ -7,7 +7,7 @@ usersRouter.use((req, res, next) => {
   next();
 });
 
-const { getAllUsers } = require('../db');
+const { getAllUsers, getUserByUsername } = require('../db');
 
 usersRouter.get('/', async (req, res) => {
   const users = await getAllUsers()
