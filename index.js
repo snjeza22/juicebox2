@@ -15,7 +15,7 @@ server.use(express.json());
 
 
 server.get('/', (req, res, next) => {
-res.sendFile(_dir,"/public/index.html");
+res.sendFile(__dirname,"/public/index.html");
 })
 
 server.post('/register', async (req, res, next)=>{
