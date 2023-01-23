@@ -53,11 +53,11 @@ server.get('/background/:color', (req, res, next) => {
   `);
 });
 
-server.get('/add/:first/to/:second', (req, res, next) => {
-  res.send(`<h1>${ req.params.first } + ${ req.params.second } = ${
-    Number(req.params.first) + Number(req.params.second)
-   }</h1>`);
-});
+// server.get('/add/:first/to/:second', (req, res, next) => {
+//   res.send(`<h1>${ req.params.first } + ${ req.params.second } = ${
+//     Number(req.params.first) + Number(req.params.second)
+//    }</h1>`);
+// });
 
 const apiRouter = require('./api');
 server.use("/api", apiRouter);
@@ -66,8 +66,13 @@ server.use("/api", apiRouter);
 const port = process.env.PORT || 3000;
 
 const { client } = require('./db');
-client.connect();
 
-server.listen(port, () => {
+
+server.listen(port, async() => {
+ try{
+  await client.connect();
+ }catch(error){
+  console.log(error, "cound not connect to the DB")
+ }
   console.log(`The server is up on port ${port}`)
 });
