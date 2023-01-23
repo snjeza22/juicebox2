@@ -55,21 +55,28 @@ usersRouter.post('/register', async (req, res, next) => {
 
 usersRouter.post('/login', async (req, res, next) => {
   const { username, password } = req.body;
-
-  // request must have both
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbGJlcnQiLCJpYXQiOjE2NzQ0NDk5ODAsImV4cCI6MTY3NTA1NDc4MH0.nIMhS9U1KZA0OMZI1us_3SOGi4dwfodWeJmZ0qR3v9U
   if (!username || !password) {
     next({
       name: "MissingCredentialsError",
       message: "Please supply both a username and password"
     });
   }
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2I0Zjg2YWU4Y2VjNjAwMTczMGM1NTgiLCJ1c2VybmFtZSI6InNuamV6YSIsImlhdCI6MTY3MjgwNDQ2OX0.syRNnlTiRVEFR6l8-tah_0SkdQ2cDuKg5kboZD3Bt0M
-  try {
+
+try {
     const user = await getUserByUsername(username);
+
+    const token = jwt.sign({ 
+      id: user.id, 
+      username
+    }, process.env.JWT_SECRET, {
+      expiresIn: '1w'
+    });
 
     if (user && user.password == password) {
       // create token & return to user
-      res.send({ message: "you're logged in!" });
+
+      res.send({ message: `you logged in! ${token}` });
     } else {
       next({ 
         name: 'IncorrectCredentialsError', 
