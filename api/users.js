@@ -63,7 +63,7 @@ usersRouter.post('/login', async (req, res, next) => {
       message: "Please supply both a username and password"
     });
   }
-
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2I0Zjg2YWU4Y2VjNjAwMTczMGM1NTgiLCJ1c2VybmFtZSI6InNuamV6YSIsImlhdCI6MTY3MjgwNDQ2OX0.syRNnlTiRVEFR6l8-tah_0SkdQ2cDuKg5kboZD3Bt0M
   try {
     const user = await getUserByUsername(username);
 
